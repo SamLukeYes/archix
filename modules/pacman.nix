@@ -69,9 +69,6 @@ in {
           List of mirrors in `/etc/pacman.d/mirrorlist`.
         '';
       };
-      package = lib.mkPackageOption pkgs "pacman" {
-        default = pkgs.pacman;
-      };
     };
   };
 
@@ -92,13 +89,13 @@ in {
           '';
         };
       };
-      systemPackages = [ cfg.package ];
+      systemPackages = [ pkgs.pacman ];
     };
     
     systemd = {
       services = {
         pacman-init = lib.mkIf (cfg.keyrings != []) {
-          path = [ cfg.package ];
+          path = [ pkgs.pacman ];
           script = ''
             export KEYRING_IMPORT_DIR=${keyrings}
             pacman-key --init
@@ -111,7 +108,7 @@ in {
           wantedBy = [ "multi-user.target" ];
         };
         pacman-sync = lib.mkIf cfg.autoSync.enable {
-          path = [ cfg.package ];
+          path = [ pkgs.pacman ];
           requires = [ "network-online.target" ];
           script = ''
             pacman -Sy
