@@ -14,7 +14,7 @@ in {
       autoSync = {
         enable = lib.mkEnableOption "automatically sync pacman databases";
         dates = lib.mkOption {
-          type = lib.types.timespan;
+          type = lib.types.str;
           default = "daily";
           description = lib.mdDoc ''
             How often and when to perform automatic syncs.
@@ -81,7 +81,9 @@ in {
         "makepkg.conf".source = cfg.makepkg.conf.source;
         "pacman.conf".text = ''
           ${builtins.readFile cfg.conf.source}
-          ${lib.concatStringsSep "\n" cfg.conf.extraRepositories}
+
+          # programs.pacman.conf.extraRepositories
+          ${cfg.conf.extraRepositories}
         '';
         "pacman.d/mirrorlist" = {
           mode = "0644";    # Allow editing
