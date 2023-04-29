@@ -26,7 +26,7 @@ Utilities for Arch Linux development, in a flake.
     ...
     outputs = { ... }@inputs:
     {
-        nixosConfigurations.<name> = {
+        nixosConfigurations.your-hostname = {
             ...
             modules = [
                 inputs.archix.nixosModules.default
@@ -43,4 +43,4 @@ $ nix shell "github:SamLukeYes/archix#devtools" -c extra-x86_64-build
 ```
 
 ### License
-GPL 3.0 or later
+GPL-3.0 or later
