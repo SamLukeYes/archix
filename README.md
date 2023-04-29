@@ -20,17 +20,14 @@ Utilities for Arch Linux development, in a flake.
 `pacman` and its dependents may expect the existence of valid `/etc/pacman.conf`, `/etc/pacman.d/mirrorlist` and `/etc/makepkg.conf`, so you need to set them up before running any programs in this flake. If you manage your NixOS configuration with flakes, you can use the Archix modules for an easy setup:
 
 ```nix
-# flake.nix
+# Add the followings to flake.nix
 {
     inputs.archix.url = "github:SamLukeYes/archix";
-    ...
     outputs = { ... }@inputs:
     {
         nixosConfigurations.your-hostname = {
-            ...
             modules = [
                 inputs.archix.nixosModules.default
-                ...
             ];
         };
     };
