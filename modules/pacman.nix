@@ -33,19 +33,16 @@ in {
           '';
         };
         extraRepositories = lib.mkOption {
-          type = lib.types.listOf lib.types.lines;
-          default = [];
-          example = [
-            ''
-              [arch4edu]
-              Server = https://m.mirrorz.org/$repo/$arch
-            ''
-            ''
-              [custom]
-              SigLevel = Optional TrustAll
-              Server = file:///home/custompkgs
-            ''
-          ];
+          type = lib.types.lines;
+          default = "";
+          example = ''
+            [arch4edu]
+            Server = https://m.mirrorz.org/$repo/$arch
+            
+            [custom]
+            SigLevel = Optional TrustAll
+            Server = file:///home/custompkgs
+          '';
           description = lib.mdDoc ''
             Additional text to be added to `/etc/pacman.conf`.
           '';
@@ -66,7 +63,7 @@ in {
         '';
       };
       mirrors = lib.mkOption {
-        type = lib.types.listOf lib.types.string;
+        type = lib.types.listOf lib.types.str;
         default = [ "https://geo.mirror.pkgbuild.com/$repo/os/$arch" ];
         description = lib.mdDoc ''
           List of mirrors in `/etc/pacman.d/mirrorlist`.
