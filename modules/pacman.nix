@@ -32,10 +32,13 @@ in {
             The source of `/etc/pacman.conf`.
           '';
         };
-        extraRepositories = lib.mkOption {
+        extraConfig = lib.mkOption {
           type = lib.types.lines;
           default = "";
           example = ''
+            [options]
+            Color
+
             [arch4edu]
             Server = https://m.mirrorz.org/$repo/$arch
             
@@ -76,11 +79,11 @@ in {
     environment = {
       etc = {
         "makepkg.conf".source = cfg.makepkg.conf.source;
-        "pacman.conf".text = ''
-          ${builtins.readFile cfg.conf.source}
-
-          # programs.pacman.conf.extraRepositories
-          ${cfg.conf.extraRepositories}
+        "pacman.conf".source = pkgs.runCommand "pacman.conf" { } ''
+          cp ${cfg.conf.source} $out
+          substituteInPlace $out --replace "NoProgressBar" "#NoProgressBar"
+          echo "\n# programs.pacman.conf.extraConfig" >> $out
+          echo "${cfg.conf.extraConfig}" >> $out
         '';
         "pacman.d/mirrorlist" = {
           mode = "0644";    # Allow editing
