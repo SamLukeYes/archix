@@ -32,7 +32,7 @@
         programs.pacman.enable = lib.mkDefault true;
       };
       binfmt = {
-        imports = [ inputs.xddxdd.nixosModules.qemu-static-binfmt ];
+        imports = [ inputs.xddxdd.nixosModules.qemu-user-static-binfmt ];
         nixpkgs.overlays = [ self.overlays.qemu ];
       };
       pacman = import ./modules.nix self system;
