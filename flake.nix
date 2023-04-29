@@ -35,7 +35,7 @@
         imports = [ inputs.xddxdd.nixosModules.qemu-user-static-binfmt ];
         nixpkgs.overlays = [ self.overlays.qemu ];
       };
-      pacman = import ./modules.nix self system;
+      pacman = import ./modules/pacman.nix self system;
     };
   };
 }
