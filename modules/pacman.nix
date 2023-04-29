@@ -82,8 +82,11 @@ in {
         "pacman.conf".source = pkgs.runCommand "pacman.conf" { } ''
           cp ${cfg.conf.source} $out
           substituteInPlace $out --replace "NoProgressBar" "#NoProgressBar"
-          echo "\n# programs.pacman.conf.extraConfig" >> $out
-          echo "${cfg.conf.extraConfig}" >> $out
+          cat >> $out << EOF
+          
+          # programs.pacman.conf.extraConfig
+          ${cfg.conf.extraConfig}
+          EOF
         '';
         "pacman.d/mirrorlist" = {
           mode = "0644";    # Allow editing
