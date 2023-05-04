@@ -7,11 +7,11 @@
 
 stdenvNoCC.mkDerivation rec {
   pname = "archlinux-keyring";
-  version = "20230320";
+  version = "20230504";
 
   src = fetchzip {
     url = "https://gitlab.archlinux.org/archlinux/${pname}/-/archive/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256-RZmGqipuWXfCxSW1tXKdio/AR60sKSyToMqvQxBjq+o=";
+    hash = "sha256-Fx7PbUS37NQeTZkYZWBErNOn9mVL53/w7dSvxPW/Y+g=";
   };
 
   nativeBuildInputs = [ python3 sequoia ];
