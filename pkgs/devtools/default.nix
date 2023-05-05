@@ -1,5 +1,5 @@
 { lib
-, stdenv
+, stdenvNoCC
 , fetchzip
 , arch-install-scripts
 , asciidoc
@@ -63,7 +63,7 @@ let
     util-linux
   ];
 
-in stdenv.mkDerivation rec {
+in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
   version = "20230307";
 
