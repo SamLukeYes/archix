@@ -10,6 +10,7 @@
 , coreutils
 , curl
 , diffutils
+, fakeroot
 , findutils
 , gawk
 , gettext
@@ -44,6 +45,7 @@ let
     btrfs-progs
     coreutils
     diffutils
+    fakeroot
     findutils
     gawk
     gettext
@@ -65,11 +67,11 @@ let
 
 in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
-  version = "20230307";
+  version = "1.0.0";
 
   src = fetchzip {
     url = "https://gitlab.archlinux.org/archlinux/devtools/-/archive/${version}/devtools-${version}.zip";
-    hash = "sha256-yGBsmjb3iNYsUX7i2+kPY25Zp/Nfbl/7/sLCmokBelE=";
+    hash = "sha256-rF8hSmmppI0isd6cO+cxgd2DAU/k0lUTmQYhO2xh7Wc=";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];
@@ -80,7 +82,13 @@ in stdenvNoCC.mkDerivation rec {
 
   postPatch = ''
     for script in \
-      ./lib/common.sh \
+      ./src/lib/common.sh \
+      ./src/lib/release.sh \
+      ./src/lib/build/build.sh \
+      ./src/lib/repo/clone.sh \
+      ./src/lib/repo/configure.sh \
+      ./src/lib/repo/switch.sh \
+      ./src/lib/version/version.sh \
       ./src/makechrootpkg.in \
       ./src/makerepropkg.in \
       ./src/offload-build.in \
@@ -96,7 +104,7 @@ in stdenvNoCC.mkDerivation rec {
         --replace "/usr/bin/rsync" "${rsync}/bin/rsync" \
         --replace "/usr/bin/scp" "${openssh}/bin/scp"
     done
-    echo "export PATH=${path}:\$PATH" >> ./lib/common.sh
+    echo "export PATH=${path}:\$PATH" >> ./src/lib/common.sh
   '';
 
   # TODO: ship sogrep-riscv64
@@ -118,6 +126,7 @@ in stdenvNoCC.mkDerivation rec {
     description = "Tools for Arch Linux package maintainers";
     homepage = "https://gitlab.archlinux.org/archlinux/devtools";
     license = licenses.gpl3Plus;
+    mainProgram = "pkgctl";
     platforms = platforms.linux;
   };
 }
