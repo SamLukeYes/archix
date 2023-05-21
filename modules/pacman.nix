@@ -27,7 +27,7 @@ in {
       conf = {
         source = lib.mkOption {
           type = lib.types.path;
-          default = "${self.packages.${system}.devtools}/share/devtools/pacman-multilib.conf";
+          default = "${self.packages.${system}.devtools}/share/devtools/pacman.conf.d/multilib.conf";
           description = lib.mdDoc ''
             The source of `/etc/pacman.conf`.
           '';
@@ -51,6 +51,14 @@ in {
           '';
         };
       };
+      confMode = lib.mkOption {
+        type = lib.types.str;
+        default = "symlink";
+        example = "0644";
+        description = lib.mdDoc ''
+          The default mode of pacman configuration files.
+        '';
+      };
       keyrings = lib.mkOption {
         type = lib.types.listOf lib.types.package;
         default = [ self.packages.${system}.archlinux-keyring ];
@@ -60,7 +68,7 @@ in {
       };
       makepkg.conf.source = lib.mkOption {
         type = lib.types.path;
-        default = "${self.packages.${system}.devtools}/share/devtools/makepkg-x86_64.conf";
+        default = "${self.packages.${system}.devtools}/share/devtools/makepkg.conf.d/x86_64.conf";
         description = lib.mdDoc ''
           The source of `/etc/makepkg.conf`.
         '';
@@ -78,18 +86,24 @@ in {
   config = lib.mkIf cfg.enable {
     environment = {
       etc = {
-        "makepkg.conf".source = cfg.makepkg.conf.source;
-        "pacman.conf".source = pkgs.runCommand "pacman.conf" { } ''
-          cp ${cfg.conf.source} $out
-          substituteInPlace $out --replace "NoProgressBar" "#NoProgressBar"
-          cat >> $out << EOF
-          
-          # programs.pacman.conf.extraConfig
-          ${cfg.conf.extraConfig}
-          EOF
-        '';
+        "makepkg.conf" = {
+          mode = lib.mkDefault cfg.confMode;
+          source = cfg.makepkg.conf.source;
+        };
+        "pacman.conf" = {
+          mode = lib.mkDefault cfg.confMode;
+          source = pkgs.runCommand "pacman.conf" { } ''
+            cp ${cfg.conf.source} $out
+            substituteInPlace $out --replace "NoProgressBar" "#NoProgressBar"
+            cat >> $out << EOF
+            
+            # programs.pacman.conf.extraConfig
+            ${cfg.conf.extraConfig}
+            EOF
+          '';
+        };
         "pacman.d/mirrorlist" = {
-          mode = "0644";    # Allow editing
+          mode = lib.mkDefault cfg.confMode;
           text = ''
             Server = ${lib.concatStringsSep "\nServer = " cfg.mirrors}
           '';
