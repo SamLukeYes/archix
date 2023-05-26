@@ -36,7 +36,7 @@
 }:
 
 let
-  system = stdenvNoCC.targetPlatform.system;
+  system = stdenvNoCC.hostPlatform.system;
 
   carch = {
     x86_64-linux = "x86_64";
