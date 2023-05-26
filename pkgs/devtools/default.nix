@@ -36,6 +36,12 @@
 }:
 
 let
+  system = stdenvNoCC.targetPlatform.system;
+
+  carch = {
+    x86_64-linux = "x86_64";
+  }.${system} or (throw "Unsupported system: ${system}");
+
   path = lib.makeBinPath [
     "${placeholder "out"}"
     arch-install-scripts
@@ -110,24 +116,23 @@ in stdenvNoCC.mkDerivation rec {
   # TODO: ship sogrep-riscv64
   postInstall = lib.optionalString enableRiscV ''
     ln -s archbuild $out/bin/extra-riscv64-build
-    patch $out/share/devtools/makepkg-x86_64.conf \
+    patch $out/share/devtools/makepkg.conf.d/x86_64.conf \
       -i ${./riscv64-patches/makepkg.patch} \
-      -o $out/share/devtools/makepkg-riscv64.conf
-    patch $out/share/devtools/pacman-extra.conf \
+      -o $out/share/devtools/makepkg.conf.d/riscv64.conf
+    patch $out/share/devtools/pacman.conf.d/extra.conf \
       -i ${substituteAll {
         inherit archRiscVMirror;
         src = ./riscv64-patches/pacman.patch;
       }} \
-      -o $out/share/devtools/pacman-extra-riscv64.conf
-    echo x86_64 > $out/share/devtools/setarch-aliases.d/riscv64
+      -o $out/share/devtools/pacman.conf.d/extra-riscv64.conf
+    echo ${carch} > $out/share/devtools/setarch-aliases.d/riscv64
   '';
 
   meta = with lib; {
-    broken = enableRiscV;
     description = "Tools for Arch Linux package maintainers";
     homepage = "https://gitlab.archlinux.org/archlinux/devtools";
     license = licenses.gpl3Plus;
     mainProgram = "pkgctl";
-    platforms = platforms.linux;
+    platforms = [ "x86_64-linux" ];
   };
 }
