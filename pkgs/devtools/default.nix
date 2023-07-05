@@ -73,11 +73,11 @@ let
 
 in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
-  version = "1.0.2";
+  version = "1.0.3";
 
   src = fetchzip {
     url = "https://gitlab.archlinux.org/archlinux/devtools/-/archive/v${version}/devtools-v${version}.zip";
-    hash = "sha256-w5gyeln1WDVR8ukAJoSjL5FEBBPOzcbLj/B4HebvCD8=";
+    hash = "sha256-mx574sh814wQqL9pwwphRCDYgmOOvhb0gFenUN0qMkk=";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];
