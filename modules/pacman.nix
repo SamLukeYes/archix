@@ -47,7 +47,7 @@ in {
             Server = file:///home/custompkgs
           '';
           description = lib.mdDoc ''
-            Additional text to be added to `/etc/pacman.conf`.
+            Additional config to be included by `/etc/pacman.conf`.
           '';
         };
       };
@@ -95,12 +95,16 @@ in {
           source = pkgs.runCommand "pacman.conf" { } ''
             cp ${cfg.conf.source} $out
             substituteInPlace $out --replace "NoProgressBar" "#NoProgressBar"
-            cat >> $out << EOF
-            
+            cat <<EOF >> $out
+
             # programs.pacman.conf.extraConfig
-            ${cfg.conf.extraConfig}
+            Include = /etc/pacman.d/extra.conf
             EOF
           '';
+        };
+        "pacman.d/extra.conf" = {
+          mode = lib.mkDefault cfg.confMode;
+          text = cfg.conf.extraConfig;
         };
         "pacman.d/mirrorlist" = {
           mode = lib.mkDefault cfg.confMode;
