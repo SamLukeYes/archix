@@ -128,11 +128,11 @@
         "nvfetcher": "nvfetcher"
       },
       "locked": {
-        "lastModified": 1697007601,
-        "narHash": "sha256-u4KxwjTfUAIg/wCcOjGVXFmKrKdP3ypvY7zIMa7P7Dk=",
+        "lastModified": 1697093167,
+        "narHash": "sha256-M3BBLax00Q/YYVnzhGJOw97UT+dnbRDiDiK8MTnHgQk=",
         "owner": "xddxdd",
         "repo": "nur-packages",
-        "rev": "ca4a5f7058ca1872a286116d5e95f8da0d61774c",
+        "rev": "178c9331bce7fc981465ef973240b703d3a6db06",
         "type": "github"
       },
       "original": {
