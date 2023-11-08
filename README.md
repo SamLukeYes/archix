@@ -7,7 +7,7 @@ Utilities for Arch Linux development, in a flake.
     - arch-install-scripts
 - Archix
     - archlinux-keyring
-    - asp
+    - ~~asp~~ (deprecated)
     - devtools
     - paru
 

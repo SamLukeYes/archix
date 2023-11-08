@@ -1,6 +1,5 @@
 { lib
 , stdenvNoCC
-, asp
 , bat
 , devtools
 , git
@@ -18,7 +17,7 @@ stdenvNoCC.mkDerivation {
 
   buildCommand = ''
     makeWrapper ${paru-unwrapped}/bin/paru $out/bin/paru \
-      --prefix PATH : ${lib.makeBinPath [ asp bat devtools git gnupg pacman ]}
+      --prefix PATH : ${lib.makeBinPath [ bat devtools git gnupg pacman ]}
     ln -s ${paru-unwrapped}/{share,etc} $out
   '';
 

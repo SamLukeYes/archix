@@ -15,12 +15,11 @@
   in {
     packages.${system} = with nixpkgs.legacyPackages.${system}; {
       archlinux-keyring = callPackage ./pkgs/archlinux-keyring { };
-      asp = callPackage ./pkgs/asp { };
       devtools = callPackage ./pkgs/devtools { };
       devtools-riscv64 = callPackage ./pkgs/devtools { enableRiscV = true; };
       paru-unwrapped = callPackage ./pkgs/paru/unwrapped.nix { };
       paru = callPackage ./pkgs/paru {
-        inherit (self.packages.${system}) asp devtools paru-unwrapped;
+        inherit (self.packages.${system}) devtools paru-unwrapped;
       };
     };
     overlays.qemu = final: prev: {
