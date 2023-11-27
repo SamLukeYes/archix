@@ -10,19 +10,28 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "paru-unwrapped";
-  version = "1.11.2";
+  version = "2.0.0";
 
   src = fetchFromGitHub {
     owner = "Morganamilo";
     repo = "paru";
     rev = "v${version}";
-    hash = "sha256-9MzT4AIMeFaNLbtiatKcyVL83bsL3+nawwKl9WvOinY=";
+    hash = "sha256-XruKt+Y69HPN3qq3oz/faTfWXVLMmc+DpEz4xkysJqU=";
   };
 
-  cargoHash = "sha256-unhcIXCvw26GQpG7yX94mq2RPD5vLeJfDWxJhJ7ZRj0=";
+  cargoLock = {
+    lockFile = "${src}/Cargo.lock";
+    outputHashes = {
+      "alpm-2.2.2" = "sha256-az1v0auvqOzyhOqybHylKM8mb62SjNrBiEHZ/ozfgXA=";
+      "aur-depends-3.0.0" = "sha256-mvWuZ3FfDWwcijCCbuqNjP4mp/BbUCsHWwuVeIEUvOU=";
+    };
+  };
+
+  # cargoHash = lib.fakeHash;
 
   postPatch = ''
     substituteInPlace src/lib.rs --replace "/usr/share" "$out/share"
+    patchShebangs scripts/*
   '';
 
   nativeBuildInputs = [ gettext installShellFiles pkg-config ];
