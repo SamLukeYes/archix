@@ -1,17 +1,20 @@
 { lib
 , stdenvNoCC
-, fetchurl
+, fetchFromGitLab
 , python3
 , sequoia
 }:
 
 stdenvNoCC.mkDerivation rec {
   pname = "archlinux-keyring";
-  version = "20231113";
+  version = "20231130";
 
-  src = fetchurl {
-    url = "https://gitlab.archlinux.org/archlinux/${pname}/-/archive/${version}/${pname}-${version}.tar.gz";
-    hash = "sha256:363d2579e9c09ad15faf9456d84957100acc0239ffeb1ac1602a3322a33c3823";
+  src = fetchFromGitLab {
+    domain = "gitlab.archlinux.org";
+    owner = "archlinux";
+    repo = pname;
+    rev = version;
+    hash = "sha256-d2hqYU5K0sq6JPxrfsk74v9ndXHurGFA8Xze8gyjUZY=";
   };
 
   nativeBuildInputs = [ python3 sequoia ];
