@@ -1,6 +1,6 @@
 { lib
 , stdenvNoCC
-, fetchzip
+, fetchurl
 , arch-install-scripts
 , asciidoc
 , bash
@@ -73,11 +73,11 @@ let
 
 in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
-  version = "1.0.3";
+  version = "1.1.0";
 
-  src = fetchzip {
-    url = "https://gitlab.archlinux.org/archlinux/devtools/-/archive/v${version}/devtools-v${version}.zip";
-    hash = "sha256-mx574sh814wQqL9pwwphRCDYgmOOvhb0gFenUN0qMkk=";
+  src = fetchurl {
+    url = "https://gitlab.archlinux.org/archlinux/devtools/-/archive/v${version}/devtools-v${version}.tar.gz";
+    hash = "sha256-nM/aTB6b0Pcll/wLORnXXPhYHWeVrRIV1L2pP4HT4jk=";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];
@@ -88,27 +88,19 @@ in stdenvNoCC.mkDerivation rec {
 
   postPatch = ''
     for script in \
-      ./src/lib/common.sh \
-      ./src/lib/release.sh \
-      ./src/lib/build/build.sh \
-      ./src/lib/repo/clone.sh \
-      ./src/lib/repo/configure.sh \
-      ./src/lib/repo/switch.sh \
-      ./src/lib/version/version.sh \
-      ./src/makechrootpkg.in \
-      ./src/makerepropkg.in \
-      ./src/offload-build.in \
-      ./src/sogrep.in
+      ./src/lib/*.sh \
+      ./src/lib/*/*.sh \
+      ./src/*.in
     do
       substituteInPlace $script \
-        --replace "/usr/share/makepkg" "${pacman}/share/makepkg" \
-        --replace "/usr/share/devtools" "$out/share/devtools"
+        --replace-warn "/usr/share/makepkg" "${pacman}/share/makepkg" \
+        --replace-warn "/usr/share/devtools" "$out/share/devtools"
     done
     for conf in ./config/makepkg/*.conf; do
       substituteInPlace $conf \
-        --replace "/usr/bin/curl" "${curl}/bin/curl" \
-        --replace "/usr/bin/rsync" "${rsync}/bin/rsync" \
-        --replace "/usr/bin/scp" "${openssh}/bin/scp"
+        --replace-warn "/usr/bin/curl" "${curl}/bin/curl" \
+        --replace-warn "/usr/bin/rsync" "${rsync}/bin/rsync" \
+        --replace-warn "/usr/bin/scp" "${openssh}/bin/scp"
     done
     echo "export PATH=${path}:\$PATH" >> ./src/lib/common.sh
   '';
