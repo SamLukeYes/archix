@@ -1,6 +1,6 @@
 { lib
 , stdenvNoCC
-, fetchurl
+, fetchFromGitLab
 , arch-install-scripts
 , asciidoc
 , bash
@@ -73,11 +73,14 @@ let
 
 in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
-  version = "1.1.0";
+  version = "1.1.1";
 
-  src = fetchurl {
-    url = "https://gitlab.archlinux.org/archlinux/devtools/-/archive/v${version}/devtools-v${version}.tar.gz";
-    hash = "sha256-nM/aTB6b0Pcll/wLORnXXPhYHWeVrRIV1L2pP4HT4jk=";
+  src = fetchFromGitLab {
+    domain = "gitlab.archlinux.org";
+    owner = "archlinux";
+    repo = pname;
+    rev = "v${version}";
+    hash = "sha256-qJPfkwKQ4sl+N6HpXtBcYFgI4qdXof8XYojt5BYAEuw=";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];
