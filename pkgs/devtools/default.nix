@@ -9,6 +9,7 @@
 , btrfs-progs
 , coreutils
 , curl
+, debugedit
 , diffutils
 , fakeroot
 , findutils
@@ -50,6 +51,7 @@ let
     breezy
     btrfs-progs
     coreutils
+    debugedit
     diffutils
     fakeroot
     findutils
