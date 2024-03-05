@@ -14,9 +14,9 @@ stdenvNoCC.mkDerivation rec {
     owner = "archlinux";
     repo = pname;
 
-    # use a commit before sequoia-sq 0.33.0, since it is still 0.32.0 in nixpkgs
-    rev = "34aa7efd3cc075ebb3164eb0e97b0f616ee426d4";
-    hash = "sha256-s/Fc7NZhC/Fhe1zM6u9gv5ZwfvxscIAuyx9goDkhPj4=";
+    # use a commit that fixed build for sequoia-sq 0.34.0
+    rev = "10252b287d7d3bc338d0aa3e5d2e6c0fc6d1653d";
+    hash = "sha256-jNKLM1Tt0i9rTwOxSRmo2bs6W2CGlzpYv/85Tf63n6A=";
   };
 
   nativeBuildInputs = [ python3 sequoia ];
