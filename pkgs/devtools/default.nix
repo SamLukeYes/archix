@@ -2,7 +2,7 @@
 , stdenvNoCC
 , fetchFromGitLab
 , arch-install-scripts
-, asciidoc
+, asciidoctor
 , bash
 , binutils
 , breezy
@@ -75,19 +75,19 @@ let
 
 in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
-  version = "1.1.1";
+  version = "1.2.0";
 
   src = fetchFromGitLab {
     domain = "gitlab.archlinux.org";
     owner = "archlinux";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-qJPfkwKQ4sl+N6HpXtBcYFgI4qdXof8XYojt5BYAEuw=";
+    hash = "sha256-w39xdhxK5SuFsQJ3/1MD0loUJ1NN+u0jtoaBU+R4Vrc=";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];
 
-  nativeBuildInputs = [ asciidoc gnum4 ];
+  nativeBuildInputs = [ asciidoctor gnum4 ];
 
   buildInputs = [ bash ];   # make it possible to use a different bash version
 
