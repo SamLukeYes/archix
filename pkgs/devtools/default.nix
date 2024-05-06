@@ -126,7 +126,7 @@ in stdenvNoCC.mkDerivation rec {
   '';
 
   meta = with lib; {
-    broken = enableRiscV;
+    # broken = enableRiscV;
     description = "Tools for Arch Linux package maintainers";
     homepage = "https://gitlab.archlinux.org/archlinux/devtools";
     license = licenses.gpl3Plus;
