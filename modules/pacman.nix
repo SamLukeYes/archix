@@ -16,7 +16,7 @@ in {
         dates = lib.mkOption {
           type = lib.types.str;
           default = "daily";
-          description = lib.mdDoc ''
+          description = ''
             How often and when to perform automatic syncs.
 
             The format is described in
@@ -28,7 +28,7 @@ in {
         source = lib.mkOption {
           type = lib.types.path;
           default = "${self.packages.${system}.devtools}/share/devtools/pacman.conf.d/multilib.conf";
-          description = lib.mdDoc ''
+          description = ''
             The source of `/etc/pacman.conf`.
           '';
         };
@@ -46,7 +46,7 @@ in {
             SigLevel = Optional TrustAll
             Server = file:///home/custompkgs
           '';
-          description = lib.mdDoc ''
+          description = ''
             Additional config to be included by `/etc/pacman.conf`.
           '';
         };
@@ -55,28 +55,28 @@ in {
         type = lib.types.str;
         default = "symlink";
         example = "0644";
-        description = lib.mdDoc ''
+        description = ''
           The default mode of pacman configuration files.
         '';
       };
       keyrings = lib.mkOption {
         type = lib.types.listOf lib.types.package;
         default = [ self.packages.${system}.archlinux-keyring ];
-        description = lib.mdDoc ''
+        description = ''
           List of keyring packages to be trusted by pacman.
         '';
       };
       makepkg.conf.source = lib.mkOption {
         type = lib.types.path;
         default = "${self.packages.${system}.devtools}/share/devtools/makepkg.conf.d/x86_64.conf";
-        description = lib.mdDoc ''
+        description = ''
           The source of `/etc/makepkg.conf`.
         '';
       };
       mirrors = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [ "https://geo.mirror.pkgbuild.com/$repo/os/$arch" ];
-        description = lib.mdDoc ''
+        description = ''
           List of mirrors in `/etc/pacman.d/mirrorlist`.
         '';
       };
