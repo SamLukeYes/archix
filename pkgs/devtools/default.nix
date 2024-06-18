@@ -4,6 +4,7 @@
 , arch-install-scripts
 , asciidoctor
 , bash
+, bat
 , binutils
 , breezy
 , btrfs-progs
@@ -22,13 +23,15 @@
 , gnupg
 , gnused
 , gzip
+, jq
 , libarchive
 , mercurial
+, nvchecker
 , openssh
 , pacman
+, parallel
 , rsync
 , subversion
-, systemd
 , util-linux
 
 , substituteAll
@@ -47,6 +50,7 @@ let
     "${placeholder "out"}"
     arch-install-scripts
     bash
+    bat
     binutils
     breezy
     btrfs-progs
@@ -63,26 +67,28 @@ let
     gnupg
     gnused
     gzip
+    jq
     libarchive
     mercurial
+    nvchecker
     openssh
     pacman
+    parallel
     rsync
     subversion
-    systemd
     util-linux
   ];
 
 in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
-  version = "1.2.0";
+  version = "1.2.1";
 
   src = fetchFromGitLab {
     domain = "gitlab.archlinux.org";
     owner = "archlinux";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-w39xdhxK5SuFsQJ3/1MD0loUJ1NN+u0jtoaBU+R4Vrc=";
+    hash = "sha256-j14Yl4l+e06p0OnnEaM33pz4PZTcHFbB0kdmVwJwxT0=";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];
