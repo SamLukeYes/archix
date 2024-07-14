@@ -21,6 +21,8 @@ stdenvNoCC.mkDerivation {
     ln -s ${paru-unwrapped}/{share,etc} $out
   '';
 
+  passthru.unwrapped = paru-unwrapped;
+
   meta = paru-unwrapped.meta // {
     description = "Feature packed AUR helper";
   };

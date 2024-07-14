@@ -1,6 +1,7 @@
 { lib
 , rustPlatform
 , fetchFromGitHub
+, fetchFromGitLab
 , gettext
 , installShellFiles
 , openssl
@@ -8,7 +9,20 @@
 , pkg-config
 }:
 
-rustPlatform.buildRustPackage rec {
+let
+  pacman' = pacman.overrideAttrs (oldAttrs: rec {
+    version = "6.1.0";
+    src = fetchFromGitLab {
+      domain = "gitlab.archlinux.org";
+      owner = "pacman";
+      repo = "pacman";
+      rev = "v${version}";
+      hash = "sha256-uHBq1A//YSqFATlyqjC5ZgmvPkNKqp7sVew+nbmLH78=";
+    };
+    hardeningDisable = [ "fortify3" ];
+  });
+
+in rustPlatform.buildRustPackage rec {
   pname = "paru-unwrapped";
   version = "2.0.3";
 
@@ -36,7 +50,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ gettext installShellFiles pkg-config ];
 
-  buildInputs = [ openssl pacman ];
+  buildInputs = [ openssl pacman' ];
 
   postInstall = ''
     mkdir -p $out/etc $out/share
@@ -51,6 +65,8 @@ rustPlatform.buildRustPackage rec {
     ./scripts/mkmo locale
     cp -r locale $out/share
   '';
+
+  passthru.pacman = pacman';
 
   meta = with lib; {
     description = "Feature packed AUR helper (without runtime depends wrapped)";
