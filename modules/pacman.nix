@@ -119,6 +119,7 @@ in {
     systemd = {
       services = {
         pacman-init = lib.mkIf (cfg.keyrings != []) {
+          after = [ "time-sync.target" ];
           path = [ pkgs.pacman ];
           script = ''
             export KEYRING_IMPORT_DIR=${keyrings}
