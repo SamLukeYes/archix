@@ -5,11 +5,11 @@ Utilities for Arch Linux development, in a flake.
 - Nixpkgs
     - pacman
     - arch-install-scripts
+    - paru
 - Archix
     - archlinux-keyring
     - ~~asp~~ (deprecated)
     - devtools
-    - paru
 
 ### Things missing
 - pacman-contrib
@@ -34,9 +34,10 @@ Utilities for Arch Linux development, in a flake.
 }
 ```
 
-Then you can use the utilities in this flake, e.g.
+Then you can use the utilities in this flake, e.g. build a package in a clean chroot:
+
 ```command
-$ nix shell "github:SamLukeYes/archix#devtools" -c extra-x86_64-build
+$ nix run "github:SamLukeYes/archix#devtools" -- build
 ```
 
 ### License
