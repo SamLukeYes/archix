@@ -15,6 +15,7 @@ Utilities for Arch Linux development, in a flake.
 - pacman-contrib
 - namcap
 - NixOS module to set up paru for chroot build
+- NixOS tests
 
 ### Setup
 `pacman` and its dependents may expect the existence of valid `/etc/pacman.conf`, `/etc/pacman.d/mirrorlist` and `/etc/makepkg.conf`, so you need to set them up before running any programs in this flake. If you manage your NixOS configuration with flakes, you can use the Archix modules for an easy setup:
