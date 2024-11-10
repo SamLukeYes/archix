@@ -1,6 +1,7 @@
 { lib
 , stdenvNoCC
 , fetchFromGitLab
+, fetchpatch
 , python3
 , sequoia
 }:
@@ -16,6 +17,14 @@ stdenvNoCC.mkDerivation rec {
     rev = version;
     hash = "sha256-KGicvhppPVFQpULq+G0CMjwtqzzo02Mt3dWNOTzPE2s=";
   };
+
+  patches = [
+    # fix: Adapt use of sq to sequoia-sq 0.39.0
+    (fetchpatch {
+      url = "https://gitlab.archlinux.org/archlinux/archlinux-keyring/-/commit/1b5d2bddcd847c0dc05ac4899867f2c76a8838b8.patch";
+      hash = "sha256-yx4P2Yb2U5Q4fdGMXcVQZhnnn1griUkHTkXCBOIPr9s=";
+    })
+  ];
 
   nativeBuildInputs = [ python3 sequoia ];
 
