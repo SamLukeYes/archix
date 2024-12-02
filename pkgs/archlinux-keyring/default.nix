@@ -1,10 +1,27 @@
 { lib
 , stdenvNoCC
 , fetchFromGitLab
-, fetchpatch
 , python3
-, sequoia
+, sequoia-sq
 }:
+
+let
+  sequoia-sq' = sequoia-sq.overrideAttrs (oldAttrs: rec {
+    version = "0.38.0";
+    src = fetchFromGitLab {
+      owner = "sequoia-pgp";
+      repo = "sequoia-sq";
+      rev = "v${version}";
+      hash = "sha256-Zzk7cQs5zD+houNjK8s3tP9kZ2/eAUV/OE3/GrNAXk8=";
+    };
+
+    # https://discourse.nixos.org/t/how-do-you-override-the-commit-rev-used-by-a-rust-package/47698/6
+    cargoDeps = oldAttrs.cargoDeps.overrideAttrs {
+      inherit src;
+      outputHash = "sha256-BoLQfNZCfWyBASrLfKjBD3pyBDn33ede0ZORAc9JQ3c=";
+    };
+  });
+in
 
 stdenvNoCC.mkDerivation rec {
   pname = "archlinux-keyring";
@@ -18,15 +35,7 @@ stdenvNoCC.mkDerivation rec {
     hash = "sha256-KGicvhppPVFQpULq+G0CMjwtqzzo02Mt3dWNOTzPE2s=";
   };
 
-  patches = [
-    # fix: Adapt use of sq to sequoia-sq 0.39.0
-    (fetchpatch {
-      url = "https://gitlab.archlinux.org/archlinux/archlinux-keyring/-/commit/1b5d2bddcd847c0dc05ac4899867f2c76a8838b8.patch";
-      hash = "sha256-yx4P2Yb2U5Q4fdGMXcVQZhnnn1griUkHTkXCBOIPr9s=";
-    })
-  ];
-
-  nativeBuildInputs = [ python3 sequoia ];
+  nativeBuildInputs = [ python3 sequoia-sq' ];
 
   makeFlags = [ "PREFIX=$(out)" ];
 
