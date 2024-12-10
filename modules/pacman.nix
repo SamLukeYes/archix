@@ -94,7 +94,7 @@ in {
           mode = lib.mkDefault cfg.confMode;
           source = pkgs.runCommand "pacman.conf" { } ''
             cp ${cfg.conf.source} $out
-            substituteInPlace $out --replace "NoProgressBar" "#NoProgressBar"
+            substituteInPlace $out --replace-quiet "NoProgressBar" "#NoProgressBar"
             cat <<EOF >> $out
 
             # programs.pacman.conf.extraConfig
@@ -148,6 +148,15 @@ in {
         "d /var/cache/pacman 1755 root root 30d"
         # TODO: use paccache to clean up instead of tmpfiles
       ];
+    };
+
+    users = {
+      groups.alpm = {};
+      users.alpm = {
+        description = "Arch Linux Package Management";
+        group = "alpm";
+        isSystemUser = true;
+      };
     };
   };
 }
