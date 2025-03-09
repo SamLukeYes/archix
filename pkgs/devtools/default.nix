@@ -71,14 +71,14 @@ let
 
 in stdenvNoCC.mkDerivation rec {
   pname = "devtools";
-  version = "1.3.0";
+  version = "1.3.2";
 
   src = fetchFromGitLab {
     domain = "gitlab.archlinux.org";
     owner = "archlinux";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-Q43UA5pfKPx8ljRHUZP3y28rXZQqTJutwO7qj4gPvvU=";
+    hash = "sha256-637YmCLIKq1jxfIwFIcv8wsriCeVXjKX6lkBYIEAw9Q=";
   };
 
   makeFlags = [ "PREFIX=$(out)" ];
