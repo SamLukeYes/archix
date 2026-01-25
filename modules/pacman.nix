@@ -112,6 +112,9 @@ in {
             Server = ${lib.concatStringsSep "\nServer = " cfg.mirrors}
           '';
         };
+
+        # https://gitlab.archlinux.org/pacman/pacman/-/issues/298
+        "pacman.d/hooks/.keep".text = "";
       };
       systemPackages = [ pkgs.pacman ];
     };
