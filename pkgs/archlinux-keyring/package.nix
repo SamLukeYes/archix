@@ -7,14 +7,14 @@
 
 stdenvNoCC.mkDerivation rec {
   pname = "archlinux-keyring";
-  version = "20260202";
+  version = "20260206";
 
   src = fetchFromGitLab {
     domain = "gitlab.archlinux.org";
     owner = "archlinux";
     repo = pname;
     rev = version;
-    hash = "sha256-uv4b0duatjndjOOL/Sncge92CJmA3IyTXsxjz/58DE0=";
+    hash = "sha256-XPcx1cwp48IFtI1KEVVw2aICNN1SwDSJkl885cS1qLc=";
   };
 
   nativeBuildInputs = [ python3 sequoia-sq ];
