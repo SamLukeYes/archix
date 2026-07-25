@@ -111,6 +111,5 @@ in stdenvNoCC.mkDerivation rec {
     homepage = "https://gitlab.archlinux.org/archlinux/devtools";
     license = licenses.gpl3Plus;
     mainProgram = "pkgctl";
-    platforms = [ "x86_64-linux" ];
   };
 }
